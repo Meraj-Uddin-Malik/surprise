@@ -3,46 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Be My Valentine?</title>
-<link rel="stylesheet" href="style.css">
+<title>Will You Be My Valentine? 💖</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* Buttons & glow */
+.glow-text { text-shadow: 0 0 15px rgba(255,192,203,0.9),0 0 30px rgba(255,105,180,0.7); }
+.bloom:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(255,0,128,0.8); transition: 0.3s ease; }
+
+/* Petals & ice */
+.petal, .ice {
+  position: absolute;
+  pointer-events: none;
+  animation: fall linear infinite;
+  opacity: 0.85;
+}
+.petal { color: #f472b6; font-size: 16px; }
+.ice { color: #60a5fa; font-size: 14px; }
+.petal:nth-child(odd), .ice:nth-child(odd) { animation-duration: 5s; }
+.petal:nth-child(even), .ice:nth-child(even) { animation-duration: 7s; }
+
+@keyframes fall {
+  0%   { transform: translateY(-10%) rotate(0deg) scale(0.8); opacity:0.8; }
+  50%  { transform: translateY(50vh) rotate(180deg) scale(1); opacity:0.9; }
+  100% { transform: translateY(110vh) rotate(360deg) scale(0.8); opacity:0; }
+}
+
+/* Stars */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle { 0% {opacity:0.2; transform: scale(0.8);} 100% {opacity:1; transform: scale(1.2);} }
+
+/* Hearts/confetti */
+.heart, .confetti {
+  position: absolute;
+  pointer-events: none;
+  font-size: 20px;
+  animation: heartFloat 3s linear forwards;
+}
+@keyframes heartFloat { 0%{opacity:1; transform:translateY(0) scale(1);} 100%{opacity:0; transform:translateY(-150px) scale(1.5);} }
+
+/* No button evade */
+#noBtn { position: absolute; transition: all 0.3s ease; cursor: pointer; }
+</style>
 </head>
-<body>
+<body class="relative flex items-center justify-center min-h-screen overflow-hidden 
+bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
 
-<div id="petals"></div>
+  <!-- Stars -->
+  <div id="stars" class="fixed inset-0 z-0 pointer-events-none"></div>
 
-<div class="card-container">
-  <div class="card open">
-    <div class="card-face front">
-      <h1>💌 A Question 💌</h1>
-    </div>
-    <div class="card-face back">
-      <h2>Will you be my Valentine?</h2>
-      <div class="valentine-buttons">
-  <button id="yesBtn">Yes ❤️</button>
-  <button id="noBtn">No 💔</button>
-</div>
+  <!-- Petals & ice -->
+  <div id="petals" class="fixed inset-0 z-10"></div>
+  <div id="ice" class="fixed inset-0 z-10"></div>
 
+  <!-- Question Card -->
+  <div class="z-20 flex flex-col items-center justify-center text-center px-6">
+    <h1 class="text-4xl md:text-5xl font-bold text-rose-200 mb-6 glow-text animate-pulse">Will You Be My Valentine? 💖</h1>
+    <div class="relative w-full max-w-xs flex justify-center items-center">
+      <button id="yesBtn" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold rounded-xl shadow-lg bloom mr-4">Yes 💖</button>
+      <button id="noBtn" class="px-6 py-3 bg-gradient-to-r from-pink-700 to-rose-600 text-white font-bold rounded-xl shadow-lg">No 😢</button>
     </div>
   </div>
-</div>
 
 <script>
-const yesBtn = document.getElementById('yesBtn');
-const noBtn = document.getElementById('noBtn');
+// Stars
+const starsContainer = document.getElementById('stars');
+for(let i=0;i<80;i++){
+  const star=document.createElement('div');
+  star.classList.add('star');
+  star.style.top=Math.random()*100+'%';
+  star.style.left=Math.random()*100+'%';
+  star.style.width=star.style.height=(1+Math.random()*2)+'px';
+  star.style.animationDuration=(1+Math.random()*2)+'s';
+  starsContainer.appendChild(star);
+}
+
+// Petals & ice
+const petalsContainer=document.getElementById('petals');
+const iceContainer=document.getElementById('ice');
+for(let i=0;i<50;i++){
+  const petal=document.createElement('div');
+  petal.classList.add('petal');
+  petal.textContent='🌹';
+  petal.style.left=Math.random()*100+'vw';
+  petal.style.fontSize=(12+Math.random()*18)+'px';
+  petal.style.animationDelay=Math.random()*5+'s';
+  petalsContainer.appendChild(petal);
+
+  const ice=document.createElement('div');
+  ice.classList.add('ice');
+  ice.textContent='❄️';
+  ice.style.left=Math.random()*100+'vw';
+  ice.style.fontSize=(12+Math.random()*12)+'px';
+  ice.style.animationDelay=Math.random()*5+'s';
+  iceContainer.appendChild(ice);
+}
+
+// Hearts/confetti on Yes
+const yesBtn=document.getElementById('yesBtn');
+yesBtn.addEventListener('click',()=>{
+  for(let i=0;i<30;i++){
+    const heart=document.createElement('div');
+    heart.classList.add('heart');
+    heart.textContent='💖';
+    heart.style.left=(yesBtn.offsetLeft + Math.random()*yesBtn.offsetWidth)+'px';
+    heart.style.top=(yesBtn.offsetTop + Math.random()*yesBtn.offsetHeight)+'px';
+    heart.style.fontSize=(16+Math.random()*24)+'px';
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),3000);
+  }
+  alert("Yay! 💖 I love you!");
+});
 
 // No button evade
-noBtn.addEventListener('mouseover',()=>{
-  const x = Math.random()*120 - 60;
-  const y = Math.random()*60 - 30;
-  noBtn.style.transform = `translate(${x}px, ${y}px)`;
-});
-
-// Yes button click -> next page
-yesBtn.addEventListener('click',()=>{
-  window.location.href = "surprise.html";
+const noBtn=document.getElementById('noBtn');
+noBtn.addEventListener('mouseenter',()=>{
+  const x=Math.random()*200-100;
+  const y=Math.random()*200-100;
+  noBtn.style.transform=`translate(${x}px, ${y}px)`;
 });
 </script>
-
-<script src="petals.js"></script>
 </body>
 </html>

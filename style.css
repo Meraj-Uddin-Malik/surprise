@@ -1,3 +1,4 @@
+/* Body & background */
 body {
   margin: 0;
   padding: 0;
@@ -8,10 +9,15 @@ body {
   height: 100vh;
   background: linear-gradient(135deg, #ff758c, #ff7eb3);
   overflow: hidden;
+  position: relative;
 }
+
+/* Card container */
 .card-container {
   perspective: 1200px;
 }
+
+/* Card */
 .card {
   width: 320px;
   height: 420px;
@@ -21,7 +27,12 @@ body {
   transition: transform 1s ease-in-out;
   cursor: pointer;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+/* Card faces */
 .card-face {
   position: absolute;
   width: 100%;
@@ -34,58 +45,80 @@ body {
   flex-direction: column;
   padding: 20px;
   text-align: center;
+  box-sizing: border-box;
 }
+
+/* Front */
 .front {
   background: linear-gradient(135deg, #ff9a9e, #fad0c4);
   color: #fff;
+  font-weight: 600;
 }
+
+/* Back */
 .back {
   background: linear-gradient(135deg, #ff7eb3, #ff758c);
   color: #fff;
   transform: rotateY(180deg);
+  font-weight: 500;
 }
+
+/* Flip effect */
 .card.open {
   transform: rotateY(180deg);
 }
+
+/* Buttons container */
 .ne.valentine-buttons {
-  display: flex;             /* Align buttons in a row */
-  justify-content: center;   /* Center horizontally */
-  align-items: center;       /* Center vertically */
-  gap: 20px;                 /* Space between buttons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
   margin-top: 20px;
-  position: relative;        /* For absolute positioning of "No" evasion */
-}
-.nextBtn{
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background: #ff4f81;
-  color: #fff;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  position: relative;
 }
 
+/* Next button */
+.nextBtn {
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: #ff4f81;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.nextBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Yes/No buttons */
 #yesBtn, #noBtn {
-  padding: 10px 20px;
+  padding: 10px 22px;
   font-size: 1rem;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   background: #ff4f81;
   color: #fff;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: transform 0.3s;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 #yesBtn:hover, #noBtn:hover {
-  transform: scale(1.05);
+  transform: scale(1.1) rotate(-2deg);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 #noBtn {
-  position: absolute; /* Needed for mouseover move to work */
+  position: absolute; /* Needed for moving on hover */
 }
 
+/* Petals */
 #petals {
   position: fixed;
   top: 0;
@@ -96,21 +129,35 @@ body {
   overflow: hidden;
   z-index: 1000;
 }
+
 .petal {
   position: absolute;
   color: pink;
   font-size: 15px;
-  animation: fall 6s linear infinite;
+  animation: fall linear infinite;
   opacity: 0.8;
 }
+
+/* Slightly random fall speed */
+.petal:nth-child(odd) { animation-duration: 5s; }
+.petal:nth-child(even) { animation-duration: 7s; }
+
 @keyframes fall {
   0% {
-    transform: translateY(-10%) rotate(0deg);
+    transform: translateY(-10%) rotate(0deg) scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(50vh) rotate(180deg) scale(1);
+    opacity: 0.9;
   }
   100% {
-    transform: translateY(110vh) rotate(360deg);
+    transform: translateY(110vh) rotate(360deg) scale(0.8);
+    opacity: 0;
   }
 }
+
+/* Music Player */
 #musicPlayer {
   margin-top: 20px;
   text-align: center;
@@ -129,11 +176,15 @@ body {
   font-weight: bold;
   text-shadow: 0 0 8px #fff;
 }
+
+/* Celebration GIF */
 #celebrateGif {
   width: 150px;
   margin-top: 20px;
 }
-@media (max-width: 400px) {
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .card {
     width: 280px;
     height: 380px;
@@ -143,4 +194,24 @@ body {
   }
 }
 
-
+@media (max-width: 480px) {
+  .card {
+    width: 240px;
+    height: 340px;
+    padding: 15px;
+  }
+  .nextBtn, #yesBtn, #noBtn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  #celebrateGif {
+    width: 100px;
+  }
+  .front h1, .back h2 {
+    font-size: 1.2rem;
+  }
+  .back p {
+    font-size: 0.9rem;
+    padding: 0 8px;
+  }
+}

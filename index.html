@@ -3,69 +3,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Love Letter ❤️</title>
-<link rel="stylesheet" href="style.css">
+<title>Magical Love Letter ❤️</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* Card flip utilities */
+.perspective { perspective: 1500px; }
+.preserve-3d { transform-style: preserve-3d; }
+.backface-hidden { backface-visibility: hidden; }
+.rotate-y-180 { transform: rotateY(180deg); }
+.card-open { transform: rotateY(180deg); transition: transform 1s ease-in-out; }
+
+/* Petals & ice */
+.petal, .ice {
+  position: absolute;
+  pointer-events: none;
+  animation: fall linear infinite;
+  opacity: 0.85;
+}
+.petal { color: #f472b6; font-size: 16px; } /* rose pink */
+.ice { color: #60a5fa; font-size: 14px; }   /* ice blue */
+.petal:nth-child(odd), .ice:nth-child(odd) { animation-duration: 5s; }
+.petal:nth-child(even), .ice:nth-child(even) { animation-duration: 7s; }
+
+@keyframes fall {
+  0%   { transform: translateY(-10%) rotate(0deg) scale(0.8); opacity: 0.8; }
+  50%  { transform: translateY(50vh) rotate(180deg) scale(1); opacity: 0.9; }
+  100% { transform: translateY(110vh) rotate(360deg) scale(0.8); opacity: 0; }
+}
+
+/* Bloom hover effect */
+.bloom:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(255,0,128,0.8); transition: 0.3s ease; }
+
+/* Glow text */
+.glow-text { text-shadow: 0 0 15px rgba(255,192,203,0.9), 0 0 30px rgba(255,105,180,0.7); }
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  font-size: 20px;
+  color: #f43f5e;
+  pointer-events: none;
+  animation: heartFloat 3s linear infinite;
+}
+@keyframes heartFloat {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  50% { transform: translateY(-50px) scale(1.2); opacity: 0.8; }
+  100% { transform: translateY(-100px) scale(0.8); opacity: 0; }
+}
+
+/* Stars */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle {
+  0% { opacity: 0.2; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+</style>
 </head>
-<body>
+<body class="relative flex items-center justify-center min-h-screen overflow-hidden 
+bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
 
-<div id="petals"></div>
+  <!-- Stars -->
+  <div id="stars" class="fixed inset-0 z-0 pointer-events-none"></div>
 
-<!-- Mobile overlay for autoplay -->
-<div id="overlay"></div>
+  <!-- Petals & ice -->
+  <div id="petals" class="fixed inset-0 z-10"></div>
+  <div id="ice" class="fixed inset-0 z-10"></div>
 
-<div class="card-container">
-  <div class="card" id="loveCard">
-    <div class="card-face front">
-      <h1>❤️ My Love ❤️</h1>
-      <h4>Tap to Flip</h4>
-    </div>
-    <div class="card-face back">
-      <h2>Dear My Fiancé</h2>
-      <p>You are my happiness, my peace, and my forever. Every day with you feels like a beautiful dream. ❤️</p>
-      <button class="nextBtn" onclick="nextPage()">Go Ahead Love</button>
+  <!-- Overlay for mobile autoplay -->
+  <div id="overlay" class="fixed inset-0 bg-white/70 z-20 flex items-center justify-center">
+    <button class="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl shadow-xl bloom">Tap to Start Music ❤️</button>
+  </div>
+
+  <!-- Card -->
+  <div class="perspective w-11/12 max-w-sm z-30">
+    <div id="loveCard" class="card preserve-3d relative w-full h-[450px] rounded-3xl shadow-2xl cursor-pointer">
+
+      <!-- Front -->
+      <div class="front backface-hidden absolute w-full h-full bg-gradient-to-tr from-rose-700 via-pink-600 to-rose-600 rounded-3xl flex flex-col items-center justify-center text-center p-6 shadow-inner">
+        <h1 class="text-3xl md:text-4xl font-bold text-rose-200 mb-2 animate-pulse glow-text">❤️ My Love ❤️</h1>
+        <h4 class="text-rose-300 text-lg md:text-xl glow-text">Tap to Flip 💌</h4>
+      </div>
+
+      <!-- Back -->
+      <div class="back backface-hidden rotate-y-180 absolute w-full h-full bg-gradient-to-tr from-rose-900 via-pink-700 to-pink-600 rounded-3xl flex flex-col items-center justify-center text-center p-6 shadow-inner">
+        <h2 class="text-2xl md:text-3xl font-semibold text-white mb-4 glow-text">Dear My Fiancé</h2>
+        <p class="text-white text-base md:text-lg mb-6">You are my happiness, my peace, and my forever. Every day with you feels like a beautiful dream. ❤️</p>
+        <button onclick="nextPage()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold rounded-xl shadow-lg bloom">Go Ahead Love</button>
+      </div>
+
     </div>
   </div>
-</div>
 
-<!-- Background Music -->
-<audio id="bgMusic" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
+  <!-- Music -->
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
 
-<script src="petals.js"></script>
 <script>
-const overlay = document.getElementById('overlay');
-const bgMusic = document.getElementById('bgMusic');
-const loveCard = document.getElementById('loveCard');
-let musicPlayed = false;
-
-// Try autoplay on load (desktop)
-window.addEventListener('load', () => {
-  bgMusic.play().catch(() => console.log("Autoplay blocked. Tap anywhere to start music."));
-});
-
-// Remove overlay and play music on mobile tap
-overlay.addEventListener('click', () => {
-  if (!musicPlayed) {
-    bgMusic.play().catch(()=>{});
-    musicPlayed = true;
-  }
-  overlay.style.display = 'none';
-});
-
-// Flip card on click
-loveCard.addEventListener('click', () => {
-  loveCard.classList.toggle('open');
-  if (!musicPlayed) {
-    bgMusic.play().catch(()=>{});
-    musicPlayed = true;
-  }
-});
-
-// Next page
-function nextPage() {
-  window.location.href = "valentine.html";
+// Stars
+const starsContainer = document.getElementById('stars');
+for(let i=0;i<80;i++){
+  const star=document.createElement('div');
+  star.classList.add('star');
+  star.style.top=Math.random()*100+'%';
+  star.style.left=Math.random()*100+'%';
+  star.style.width=star.style.height=(1+Math.random()*2)+'px';
+  star.style.animationDuration=(1+Math.random()*2)+'s';
+  starsContainer.appendChild(star);
 }
+
+// Petals & ice
+const petalsContainer = document.getElementById('petals');
+const iceContainer = document.getElementById('ice');
+for(let i=0;i<50;i++){
+  const petal = document.createElement('div');
+  petal.classList.add('petal');
+  petal.textContent = '🌹';
+  petal.style.left=Math.random()*100+'vw';
+  petal.style.fontSize=(12+Math.random()*18)+'px';
+  petal.style.animationDelay=Math.random()*5+'s';
+  petalsContainer.appendChild(petal);
+
+  const ice = document.createElement('div');
+  ice.classList.add('ice');
+  ice.textContent = '❄️';
+  ice.style.left=Math.random()*100+'vw';
+  ice.style.fontSize=(12+Math.random()*12)+'px';
+  ice.style.animationDelay=Math.random()*5+'s';
+  iceContainer.appendChild(ice);
+}
+
+// Hearts on click
+document.body.addEventListener('click', e=>{
+  const heart=document.createElement('div');
+  heart.classList.add('heart');
+  heart.style.left=e.clientX+'px';
+  heart.style.top=e.clientY+'px';
+  heart.textContent='💖';
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),3000);
+});
+
+// Flip card & music
+const overlay=document.getElementById('overlay');
+const bgMusic=document.getElementById('bgMusic');
+const loveCard=document.getElementById('loveCard');
+let musicPlayed=false;
+
+window.addEventListener('load',()=>{ bgMusic.play().catch(()=>{}); });
+
+overlay.addEventListener('click',()=>{
+  if(!musicPlayed){ bgMusic.play().catch(()=>{}); musicPlayed=true; }
+  overlay.style.display='none';
+});
+
+loveCard.addEventListener('click',()=>{
+  loveCard.classList.toggle('card-open');
+  if(!musicPlayed){ bgMusic.play().catch(()=>{}); musicPlayed=true; }
+});
+
+function nextPage(){ window.location.href="valentine.html"; }
 </script>
 </body>
 </html>
