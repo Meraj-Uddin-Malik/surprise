@@ -3,39 +3,51 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>😂 Abhi Bhi Dekh Ly!</title>
+<title>😂 Final Celebration!</title>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
 
-/* Glow text */
+/* Smooth Fade In */
+body{
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(1.05);}
+  to{opacity:1; transform:scale(1);}
+}
+
+/* Glass Card */
+.glass {
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 0 40px rgba(255,105,180,0.4);
+}
+
+/* Glow Text */
 .glow-text {
   text-shadow:
-    0 0 15px rgba(255,192,203,0.9),
-    0 0 30px rgba(255,105,180,0.7);
+    0 0 20px rgba(255,192,203,0.9),
+    0 0 40px rgba(255,105,180,0.7);
 }
 
-/* Falling elements */
-.petal, .ice, .diamond, .confetti {
+/* Floating Animation */
+.float {
   position:absolute;
   pointer-events:none;
-  animation: fall linear infinite;
-  opacity:0.85;
+  animation: floatUp linear infinite;
 }
 
-.petal { font-size:16px; }
-.ice { font-size:14px; }
-.diamond { font-size:18px; }
-.confetti { font-size:14px; }
-
-@keyframes fall {
-  0%   { transform:translateY(-10%) rotate(0deg) scale(0.8); opacity:0.8; }
-  50%  { transform:translateY(50vh) rotate(180deg) scale(1); }
-  100% { transform:translateY(110vh) rotate(360deg) scale(0.8); opacity:0; }
+@keyframes floatUp{
+  0%{transform:translateY(110vh) scale(0.8); opacity:0;}
+  10%{opacity:1;}
+  100%{transform:translateY(-10vh) scale(1.2); opacity:0;}
 }
 
 /* Stars */
-.star {
+.star{
   position:absolute;
   width:2px;
   height:2px;
@@ -44,84 +56,78 @@
   animation: twinkle 2s infinite alternate;
 }
 
-@keyframes twinkle {
-  from { opacity:0.2; }
-  to { opacity:1; }
+@keyframes twinkle{
+  from{opacity:0.2;}
+  to{opacity:1;}
 }
 
 </style>
 </head>
 
-<body class="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800 text-center">
+<body class="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-br from-rose-900 via-pink-800 to-rose-700 text-center text-white">
 
 <!-- Stars -->
-<div id="stars" class="fixed inset-0 z-0"></div>
+<div id="stars" class="fixed inset-0"></div>
 
-<!-- Floating elements -->
-<div id="petals" class="fixed inset-0 z-10"></div>
-<div id="ice" class="fixed inset-0 z-10"></div>
-<div id="diamonds" class="fixed inset-0 z-10"></div>
-<div id="confetti" class="fixed inset-0 z-10"></div>
+<!-- Floating Emojis -->
+<div id="floating" class="fixed inset-0"></div>
 
-<!-- Main Text -->
-<div class="z-20 px-6">
-  <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-200 glow-text animate-pulse">
+<!-- Main Card -->
+<div class="glass z-20 px-8 py-10 rounded-3xl max-w-lg mx-4">
+  <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold glow-text animate-pulse">
     😂 Hahaha! Samajh Liya! 😎💖
   </h1>
-  <p class="text-pink-200 mt-6 text-lg sm:text-xl">
+  <p class="mt-6 text-lg sm:text-xl text-pink-200">
     Ab To Final Celebration Start Ho Gayi 🎉🔥
   </p>
+
+  <button onclick="bgMusic.play()" 
+    class="mt-8 px-6 py-3 rounded-full bg-pink-500 hover:bg-pink-600 transition duration-300 shadow-lg shadow-pink-500/50">
+    🎵 Play Music
+  </button>
 </div>
 
 <!-- Background Music -->
-<audio id="bgMusic" loop>
+<audio id="bgMusic" autoplay loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-/* Force autoplay on mobile */
+/* Auto Play Immediately When Enter Page */
 const bgMusic = document.getElementById("bgMusic");
-bgMusic.volume = 0.8;
+bgMusic.volume = 0.9;
 
-function startMusic(){
-  bgMusic.play().catch(()=>{});
-  document.removeEventListener("click", startMusic);
-  document.removeEventListener("touchstart", startMusic);
-}
-
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
+window.addEventListener("load",()=>{
+  bgMusic.play().catch(()=>{
+    document.addEventListener("click",()=>bgMusic.play(),{once:true});
+  });
+});
 
 /* Stars */
-const starsContainer=document.getElementById("stars");
-for(let i=0;i<80;i++){
+const stars=document.getElementById("stars");
+for(let i=0;i<100;i++){
   const star=document.createElement("div");
-  star.classList.add("star");
+  star.className="star";
   star.style.top=Math.random()*100+"%";
   star.style.left=Math.random()*100+"%";
   star.style.width=star.style.height=(1+Math.random()*2)+"px";
-  starsContainer.appendChild(star);
+  stars.appendChild(star);
 }
 
-/* Floating Elements */
-function createFloating(containerId, emoji, count){
-  const container=document.getElementById(containerId);
-  for(let i=0;i<count;i++){
-    const el=document.createElement("div");
-    el.className=containerId.slice(0,-1);
-    el.textContent=emoji;
-    el.style.left=Math.random()*100+"vw";
-    el.style.fontSize=(12+Math.random()*18)+"px";
-    el.style.animationDuration=(4+Math.random()*4)+"s";
-    container.appendChild(el);
-  }
-}
+/* Floating Emojis */
+const floating=document.getElementById("floating");
+const emojis=["🌹","💎","🎊","✨","🔥","💖"];
 
-createFloating("petals","🌹",40);
-createFloating("ice","❄️",30);
-createFloating("diamonds","💎",30);
-createFloating("confetti","🎊",30);
+for(let i=0;i<50;i++){
+  const el=document.createElement("div");
+  el.className="float";
+  el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  el.style.left=Math.random()*100+"vw";
+  el.style.fontSize=(14+Math.random()*20)+"px";
+  el.style.animationDuration=(5+Math.random()*5)+"s";
+  floating.appendChild(el);
+}
 
 </script>
 
