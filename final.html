@@ -1,57 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grand Celebration! 💖</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>😂 Abhi Bhi Dekh Ly!</title>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
 
-/* Glow */
+/* Glow text */
 .glow-text {
-  text-shadow: 0 0 20px rgba(255,192,203,0.9),
-               0 0 40px rgba(255,105,180,0.8);
+  text-shadow:
+    0 0 15px rgba(255,192,203,0.9),
+    0 0 30px rgba(255,105,180,0.7);
 }
 
-/* Floating elements */
-.petal, .ice, .diamond, .confetti, .heart, .firework {
-  position: absolute;
-  pointer-events: none;
+/* Falling elements */
+.petal, .ice, .diamond, .confetti {
+  position:absolute;
+  pointer-events:none;
   animation: fall linear infinite;
-  opacity: 0.85;
+  opacity:0.85;
 }
 
-.petal { font-size: 16px; }
-.ice { font-size: 14px; }
-.diamond { font-size: 18px; }
-.confetti { font-size: 14px; }
-
-.heart {
-  font-size: 20px;
-  animation: heartFloat 4s linear forwards;
-}
-
-.firework {
-  font-size: 25px;
-  animation: fireworkExplode 1.5s ease-out forwards;
-}
+.petal { font-size:16px; }
+.ice { font-size:14px; }
+.diamond { font-size:18px; }
+.confetti { font-size:14px; }
 
 @keyframes fall {
-  0% { transform: translateY(-10%) rotate(0deg) scale(0.8); opacity:0.8; }
-  50% { transform: translateY(50vh) rotate(180deg) scale(1); }
-  100% { transform: translateY(110vh) rotate(360deg) scale(0.8); opacity:0; }
-}
-
-@keyframes heartFloat {
-  0% {opacity:1; transform:translateY(0);}
-  100% {opacity:0; transform:translateY(-200px);}
-}
-
-@keyframes fireworkExplode {
-  0% {opacity:1; transform:scale(0);}
-  50% {transform:scale(1.3);}
-  100% {opacity:0; transform:scale(1.6);}
+  0%   { transform:translateY(-10%) rotate(0deg) scale(0.8); opacity:0.8; }
+  50%  { transform:translateY(50vh) rotate(180deg) scale(1); }
+  100% { transform:translateY(110vh) rotate(360deg) scale(0.8); opacity:0; }
 }
 
 /* Stars */
@@ -65,76 +45,37 @@
 }
 
 @keyframes twinkle {
-  from {opacity:0.2;}
-  to {opacity:1;}
-}
-
-/* Celebration Box - Dark & Responsive */
-#celebrationMessage {
-  position: fixed;
-  top:50%;
-  left:50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  width:90%;
-  max-width:420px;
-  padding:2rem 1.5rem;
-  border-radius:2rem;
-  text-align:center;
-  color:#fff;
-  font-size:1.6rem;
-  font-weight:bold;
-  z-index:50;
-
-  background: linear-gradient(135deg,#7e22ce,#9f1239);
-  box-shadow:0 0 50px rgba(0,0,0,0.9);
-  transition:0.4s ease;
-}
-
-#celebrationMessage.show {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-#celebrationMessage button {
-  margin-top:1.5rem;
-  padding:0.8rem 2.5rem;
-  font-size:1rem;
-  border-radius:1rem;
-  border:none;
-  cursor:pointer;
-  background:#fff;
-  color:#7e22ce;
-  font-weight:bold;
-  transition:0.3s;
-}
-
-#celebrationMessage button:hover {
-  transform:scale(1.1);
+  from { opacity:0.2; }
+  to { opacity:1; }
 }
 
 </style>
 </head>
 
-<body class="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
+<body class="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800 text-center">
 
 <!-- Stars -->
 <div id="stars" class="fixed inset-0 z-0"></div>
 
-<!-- Floating Containers -->
+<!-- Floating elements -->
 <div id="petals" class="fixed inset-0 z-10"></div>
 <div id="ice" class="fixed inset-0 z-10"></div>
 <div id="diamonds" class="fixed inset-0 z-10"></div>
 <div id="confetti" class="fixed inset-0 z-10"></div>
 
-<!-- Celebration Box -->
-<div id="celebrationMessage" class="glow-text">
-💖 Hamari Kahani Complete! 💖
-<br>
-<button id="replayBtn">Replay 🔁</button>
+<!-- Main Text -->
+<div class="z-20 px-6">
+  <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-200 glow-text animate-pulse">
+    😂 Hahaha! Samajh Liya! 😎💖
+  </h1>
+  <p class="text-pink-200 mt-6 text-lg sm:text-xl">
+    Ab To Final Celebration Start Ho Gayi 🎉🔥
+  </p>
 </div>
 
 <!-- Background Music -->
 <audio id="bgMusic" loop>
-  <source src="final_song.mp3" type="audio/mpeg">
+  <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -143,7 +84,7 @@
 const bgMusic = document.getElementById("bgMusic");
 bgMusic.volume = 0.8;
 
-function startMusic() {
+function startMusic(){
   bgMusic.play().catch(()=>{});
   document.removeEventListener("click", startMusic);
   document.removeEventListener("touchstart", startMusic);
@@ -152,65 +93,35 @@ function startMusic() {
 document.addEventListener("click", startMusic);
 document.addEventListener("touchstart", startMusic);
 
-/* Show box animation */
-window.addEventListener("load",()=>{
-  document.getElementById("celebrationMessage").classList.add("show");
-});
-
 /* Stars */
-const stars = document.getElementById("stars");
-for(let i=0;i<100;i++){
-  const s=document.createElement("div");
-  s.classList.add("star");
-  s.style.top=Math.random()*100+"%";
-  s.style.left=Math.random()*100+"%";
-  s.style.width=s.style.height=(1+Math.random()*2)+"px";
-  stars.appendChild(s);
+const starsContainer=document.getElementById("stars");
+for(let i=0;i<80;i++){
+  const star=document.createElement("div");
+  star.classList.add("star");
+  star.style.top=Math.random()*100+"%";
+  star.style.left=Math.random()*100+"%";
+  star.style.width=star.style.height=(1+Math.random()*2)+"px";
+  starsContainer.appendChild(star);
 }
 
 /* Floating Elements */
-function createFloating(container, emoji, count){
+function createFloating(containerId, emoji, count){
+  const container=document.getElementById(containerId);
   for(let i=0;i<count;i++){
     const el=document.createElement("div");
-    el.className=container;
+    el.className=containerId.slice(0,-1);
     el.textContent=emoji;
     el.style.left=Math.random()*100+"vw";
-    el.style.fontSize=(14+Math.random()*20)+"px";
+    el.style.fontSize=(12+Math.random()*18)+"px";
     el.style.animationDuration=(4+Math.random()*4)+"s";
-    document.getElementById(container+"s").appendChild(el);
+    container.appendChild(el);
   }
 }
 
-createFloating("petal","🌹",50);
-createFloating("ice","❄️",40);
-createFloating("diamond","💎",40);
-createFloating("confetti","🎊",40);
-
-/* Continuous Hearts */
-setInterval(()=>{
-  const heart=document.createElement("div");
-  heart.className="heart";
-  heart.textContent="💖";
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.top="80vh";
-  document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(),4000);
-},400);
-
-/* Fireworks */
-setInterval(()=>{
-  const fw=document.createElement("div");
-  fw.className="firework";
-  fw.textContent="✨";
-  fw.style.left=Math.random()*100+"vw";
-  fw.style.top=Math.random()*50+"vh";
-  document.body.appendChild(fw);
-  setTimeout(()=>fw.remove(),1500);
-},600);
-
-/* Replay */
-document.getElementById("replayBtn")
-.addEventListener("click",()=>location.reload());
+createFloating("petals","🌹",40);
+createFloating("ice","❄️",30);
+createFloating("diamonds","💎",30);
+createFloating("confetti","🎊",30);
 
 </script>
 
