@@ -3,24 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Be My Valentine? 💖</title>
+<title>Will You Marry Me? 💍</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 /* Glow text & buttons */
 .glow-text { text-shadow: 0 0 15px rgba(255,192,203,0.9),0 0 30px rgba(255,105,180,0.7); }
 .bloom:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(255,0,128,0.8); transition: 0.3s ease; }
 
-/* Petals & ice */
-.petal, .ice {
+/* Petals, ice, diamonds, confetti */
+.petal, .ice, .diamond, .confetti {
   position: absolute;
   pointer-events: none;
   animation: fall linear infinite;
   opacity: 0.85;
 }
-.petal { color: #f472b6; font-size: 16px; }
-.ice { color: #60a5fa; font-size: 14px; }
-.petal:nth-child(odd), .ice:nth-child(odd) { animation-duration: 5s; }
-.petal:nth-child(even), .ice:nth-child(even) { animation-duration: 7s; }
+.petal { font-size: 16px; }
+.ice { font-size: 14px; }
+.diamond { font-size: 18px; } /* 💎 diamonds */
+.confetti { font-size: 14px; }
+.petal:nth-child(odd), .ice:nth-child(odd), .diamond:nth-child(odd), .confetti:nth-child(odd) { animation-duration: 5s; }
+.petal:nth-child(even), .ice:nth-child(even), .diamond:nth-child(even), .confetti:nth-child(even) { animation-duration: 7s; }
 
 @keyframes fall {
   0%   { transform: translateY(-10%) rotate(0deg) scale(0.8); opacity:0.8; }
@@ -67,7 +69,6 @@
   display: none;
   z-index: 50;
   box-shadow: 0 0 35px rgba(255, 0, 128, 0.95);
-  backdrop-filter: none;
   opacity: 1;
 }
 #sweetMessage button {
@@ -92,13 +93,15 @@ bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
   <!-- Stars -->
   <div id="stars" class="fixed inset-0 z-0 pointer-events-none"></div>
 
-  <!-- Petals & ice -->
+  <!-- Petals, ice, diamonds, confetti -->
   <div id="petals" class="fixed inset-0 z-10"></div>
   <div id="ice" class="fixed inset-0 z-10"></div>
+  <div id="diamonds" class="fixed inset-0 z-10"></div>
+  <div id="confetti" class="fixed inset-0 z-10"></div>
 
   <!-- Question Card -->
   <div class="z-20 flex flex-col items-center justify-center text-center px-6">
-    <h1 class="text-4xl md:text-5xl font-bold text-rose-200 mb-6 glow-text animate-pulse">Will You Be My Valentine? 💖</h1>
+    <h1 class="text-4xl md:text-5xl font-bold text-rose-200 mb-6 glow-text animate-pulse">Will You Marry Me? 💍</h1>
     <div class="relative w-full max-w-xs flex justify-center items-center">
       <button id="yesBtn" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold rounded-xl shadow-lg bloom mr-4">Yes 💖</button>
       <button id="noBtn" class="px-6 py-3 bg-gradient-to-r from-pink-700 to-rose-600 text-white font-bold rounded-xl shadow-lg">No 😢</button>
@@ -107,9 +110,9 @@ bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
 
   <!-- Sweet message after Yes -->
   <div id="sweetMessage">
-    💖 Yay! You made me the happiest! 💖
+    💖 Yay! You said yes! 💖
     <br>
-    <button id="nextPageBtn"><a href=""></a> ❤️</button>
+    <button id="nextPageBtn">Celebrate 🎉</button>
   </div>
 
   <!-- Background music -->
@@ -130,9 +133,12 @@ for(let i=0;i<80;i++){
   starsContainer.appendChild(star);
 }
 
-// Petals & ice
+// Petals, ice, diamonds, confetti
 const petalsContainer=document.getElementById('petals');
 const iceContainer=document.getElementById('ice');
+const diamondsContainer=document.getElementById('diamonds');
+const confettiContainer=document.getElementById('confetti');
+
 for(let i=0;i<50;i++){
   const petal=document.createElement('div');
   petal.classList.add('petal');
@@ -149,6 +155,22 @@ for(let i=0;i<50;i++){
   ice.style.fontSize=(12+Math.random()*12)+'px';
   ice.style.animationDelay=Math.random()*5+'s';
   iceContainer.appendChild(ice);
+
+  const diamond=document.createElement('div');
+  diamond.classList.add('diamond');
+  diamond.textContent='💎';
+  diamond.style.left=Math.random()*100+'vw';
+  diamond.style.fontSize=(14+Math.random()*16)+'px';
+  diamond.style.animationDelay=Math.random()*5+'s';
+  diamondsContainer.appendChild(diamond);
+
+  const confetti=document.createElement('div');
+  confetti.classList.add('confetti');
+  confetti.textContent='🎊';
+  confetti.style.left=Math.random()*100+'vw';
+  confetti.style.fontSize=(12+Math.random()*12)+'px';
+  confetti.style.animationDelay=Math.random()*5+'s';
+  confettiContainer.appendChild(confetti);
 }
 
 // Buttons
@@ -160,8 +182,7 @@ const nextPageBtn=document.getElementById('nextPageBtn');
 // Yes button
 yesBtn.addEventListener('click',()=>{
   sweetMessage.style.display='block';
-  // Hearts animation
-  for(let i=0;i<30;i++){
+  for(let i=0;i<50;i++){
     const heart=document.createElement('div');
     heart.classList.add('heart');
     heart.textContent='💖';
@@ -174,7 +195,7 @@ yesBtn.addEventListener('click',()=>{
 });
 
 // Next page
-nextPageBtn.addEventListener('click',()=>{ window.location.href="valentine_next.html"; });
+nextPageBtn.addEventListener('click',()=>{ window.location.href="marriage_celebration.html"; });
 
 // No button evade
 noBtn.addEventListener('mouseenter',()=>{
