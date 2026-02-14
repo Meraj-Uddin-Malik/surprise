@@ -6,7 +6,7 @@
 <title>Will You Be My Valentine? 💖</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-/* Buttons & glow */
+/* Glow text & buttons */
 .glow-text { text-shadow: 0 0 15px rgba(255,192,203,0.9),0 0 30px rgba(255,105,180,0.7); }
 .bloom:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(255,0,128,0.8); transition: 0.3s ease; }
 
@@ -41,7 +41,7 @@
 @keyframes twinkle { 0% {opacity:0.2; transform: scale(0.8);} 100% {opacity:1; transform: scale(1.2);} }
 
 /* Hearts/confetti */
-.heart, .confetti {
+.heart {
   position: absolute;
   pointer-events: none;
   font-size: 20px;
@@ -51,6 +51,37 @@
 
 /* No button evade */
 #noBtn { position: absolute; transition: all 0.3s ease; cursor: pointer; }
+
+/* Sweet message card */
+#sweetMessage {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(to-tr, #f43f5e, #ec4899);
+  padding: 2rem;
+  border-radius: 2rem;
+  text-align: center;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: none;
+  z-index: 50;
+  box-shadow: 0 0 25px rgba(255, 0, 128, 0.8);
+}
+#sweetMessage button {
+  margin-top: 1.5rem;
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 1rem;
+  border: none;
+  cursor: pointer;
+  background: #fff;
+  color: #f43f5e;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+#sweetMessage button:hover { transform: scale(1.05); }
 </style>
 </head>
 <body class="relative flex items-center justify-center min-h-screen overflow-hidden 
@@ -71,6 +102,18 @@ bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
       <button id="noBtn" class="px-6 py-3 bg-gradient-to-r from-pink-700 to-rose-600 text-white font-bold rounded-xl shadow-lg">No 😢</button>
     </div>
   </div>
+
+  <!-- Sweet message after Yes -->
+  <div id="sweetMessage">
+    💖 Yay! You made me the happiest! 💖
+    <br>
+    <button id="nextPageBtn">Next ❤️</button>
+  </div>
+
+  <!-- Background music -->
+  <audio id="bgMusic" loop autoplay>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
 
 <script>
 // Stars
@@ -106,9 +149,16 @@ for(let i=0;i<50;i++){
   iceContainer.appendChild(ice);
 }
 
-// Hearts/confetti on Yes
+// Buttons
 const yesBtn=document.getElementById('yesBtn');
+const noBtn=document.getElementById('noBtn');
+const sweetMessage=document.getElementById('sweetMessage');
+const nextPageBtn=document.getElementById('nextPageBtn');
+
+// Yes button
 yesBtn.addEventListener('click',()=>{
+  sweetMessage.style.display='block';
+  // Hearts animation
   for(let i=0;i<30;i++){
     const heart=document.createElement('div');
     heart.classList.add('heart');
@@ -119,11 +169,12 @@ yesBtn.addEventListener('click',()=>{
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(),3000);
   }
-  alert("Yay! 💖 I love you!");
 });
 
+// Next page
+nextPageBtn.addEventListener('click',()=>{ window.location.href="valentine_next.html"; });
+
 // No button evade
-const noBtn=document.getElementById('noBtn');
 noBtn.addEventListener('mouseenter',()=>{
   const x=Math.random()*200-100;
   const y=Math.random()*200-100;
