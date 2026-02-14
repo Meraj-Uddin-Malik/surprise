@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surprise ❤️</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="petals"></div>
+
+<div class="card-container">
+  <div class="card open">
+    <div class="card-face front">
+      <h1>🎁 Surprise 🎁</h1>
+    </div>
+    <div class="card-face back">
+      <h2>Good Decision! Now Surprise for You ❤️</h2>
+      <div id="musicMessage">🎵 This song is for you 🎵</div>
+      <!-- Hidden autoplay music -->
+      <audio id="finalMusic" autoplay loop>
+        <source src="music.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+</div>
+
+<script src="petals.js"></script>
+<script>
+const bgMusic = document.getElementById('finalMusic');
+
+// Try to autoplay on load (for mobile / desktop)
+window.addEventListener('load', () => {
+  bgMusic.play().catch(() => console.log("Autoplay blocked. Tap anywhere to start music."));
+});
+</script>
+</body>
+</html>

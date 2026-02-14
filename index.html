@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Letter ❤️</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="petals"></div>
+
+<!-- Mobile overlay for autoplay -->
+<div id="overlay"></div>
+
+<div class="card-container">
+  <div class="card" id="loveCard">
+    <div class="card-face front">
+      <h1>❤️ My Love ❤️</h1>
+      <h4>Tap to Flip</h4>
+    </div>
+    <div class="card-face back">
+      <h2>Dear My Fiancé</h2>
+      <p>You are my happiness, my peace, and my forever. Every day with you feels like a beautiful dream. ❤️</p>
+      <button class="nextBtn" onclick="nextPage()">Go Ahead Love</button>
+    </div>
+  </div>
+</div>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script src="petals.js"></script>
+<script>
+const overlay = document.getElementById('overlay');
+const bgMusic = document.getElementById('bgMusic');
+const loveCard = document.getElementById('loveCard');
+let musicPlayed = false;
+
+// Try autoplay on load (desktop)
+window.addEventListener('load', () => {
+  bgMusic.play().catch(() => console.log("Autoplay blocked. Tap anywhere to start music."));
+});
+
+// Remove overlay and play music on mobile tap
+overlay.addEventListener('click', () => {
+  if (!musicPlayed) {
+    bgMusic.play().catch(()=>{});
+    musicPlayed = true;
+  }
+  overlay.style.display = 'none';
+});
+
+// Flip card on click
+loveCard.addEventListener('click', () => {
+  loveCard.classList.toggle('open');
+  if (!musicPlayed) {
+    bgMusic.play().catch(()=>{});
+    musicPlayed = true;
+  }
+});
+
+// Next page
+function nextPage() {
+  window.location.href = "valentine.html";
+}
+</script>
+</body>
+</html>

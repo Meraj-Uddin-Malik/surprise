@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Love Letter ❤️</title>
+  
+  <!-- Handwriting font -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Dancing Script', cursive;
+      background: #f2e3c6; /* vintage paper color */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .letter-container {
+      width: 80%;
+      max-width: 600px;
+      padding: 50px;
+      background: #fff4e3;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border: 2px solid #d9c5a3;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .letter {
+      font-size: 1.3rem;
+      line-height: 1.8;
+      color: #4b3e2b;
+      white-space: pre-wrap;
+    }
+
+    /* Floating hearts and sparkles */
+    .heart, .sparkle {
+      position: absolute;
+      pointer-events: none;
+      color: rgba(255,0,100,0.7);
+      animation: float 6s infinite linear;
+      font-size: 20px;
+      opacity: 0;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* Overlay for mobile autoplay */
+    #overlay {
+      position: fixed;
+      top:0; left:0;
+      width: 100%; height: 100%;
+      z-index: 9999;
+      background: rgba(0,0,0,0);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Overlay for mobile autoplay -->
+  <div id="overlay"></div>
+
+  <div class="letter-container">
+    <div class="letter" id="loveText">
+Dear my love,
+
+Every moment with you is a treasure.  
+Your smile lights up my world, and your love fills my heart.  
+I can't wait to spend forever with you.
+
+Yours always,  
+❤️
+    </div>
+  </div>
+
+  <!-- Background music -->
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const overlay = document.getElementById('overlay');
+    const music = document.getElementById('bgMusic');
+    let musicPlayed = false;
+
+    // Try autoplay on load (desktop)
+    window.addEventListener('load', () => {
+      music.play().catch(() => console.log("Tap overlay to start music"));
+    });
+
+    // Remove overlay on first tap (mobile)
+    overlay.addEventListener('click', () => {
+      if (!musicPlayed) {
+        music.play().catch(() => {});
+        musicPlayed = true;
+      }
+      overlay.style.display = 'none';
+    });
+
+    // Handwriting animation
+    const loveText = document.getElementById('loveText');
+    const text = loveText.innerHTML;
+    loveText.innerHTML = '';
+    let i = 0;
+
+    function typeLetter() {
+      if (i < text.length) {
+        loveText.innerHTML += text[i];
+        i++;
+        setTimeout(typeLetter, 50); // handwriting speed
+      }
+    }
+    typeLetter();
+
+    // Floating hearts
+    for(let j=0;j<25;j++){
+      const heart = document.createElement('div');
+      heart.className='heart';
+      heart.innerHTML='❤️';
+      heart.style.left = Math.random()*100 + 'vw';
+      heart.style.animationDuration = (Math.random()*3+4)+'s';
+      heart.style.fontSize = (Math.random()*20+10)+'px';
+      heart.style.animationDelay = (Math.random()*5)+'s';
+      heart.style.opacity = 1;
+      document.body.appendChild(heart);
+    }
+
+    // Floating sparkles
+    for(let k=0;k<15;k++){
+      const sparkle = document.createElement('div');
+      sparkle.className='sparkle';
+      sparkle.innerHTML='✨';
+      sparkle.style.left = Math.random()*100 + 'vw';
+      sparkle.style.animationDuration = (Math.random()*4+3)+'s';
+      sparkle.style.fontSize = (Math.random()*15+5)+'px';
+      sparkle.style.animationDelay = (Math.random()*5)+'s';
+      sparkle.style.opacity = 1;
+      document.body.appendChild(sparkle);
+    }
+  </script>
+</body>
+</html>
