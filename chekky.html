@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Marry Me? 💍</title>
+<title>Haan Haan! 😏</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 /* Glow text & buttons */
@@ -19,7 +19,7 @@
 }
 .petal { font-size: 16px; }
 .ice { font-size: 14px; }
-.diamond { font-size: 18px; } /* 💎 diamonds */
+.diamond { font-size: 18px; }
 .confetti { font-size: 14px; }
 .petal:nth-child(odd), .ice:nth-child(odd), .diamond:nth-child(odd), .confetti:nth-child(odd) { animation-duration: 5s; }
 .petal:nth-child(even), .ice:nth-child(even), .diamond:nth-child(even), .confetti:nth-child(even) { animation-duration: 7s; }
@@ -101,18 +101,19 @@ bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
 
   <!-- Question Card -->
   <div class="z-20 flex flex-col items-center justify-center text-center px-6">
-    <h1 class="text-4xl md:text-5xl font-bold text-rose-200 mb-6 glow-text animate-pulse">Will You Marry Me? 💍</h1>
+    <h1 class="text-4xl md:text-5xl font-bold text-rose-200 mb-6 glow-text animate-pulse">Haan Haan! 😏</h1>
+    <h2 class="text-xl md:text-2xl font-semibold text-rose-100 mb-4 glow-text">Kon Bardasht Karega Tere Mere Siwa? 😎</h2>
     <div class="relative w-full max-w-xs flex justify-center items-center">
-      <button id="yesBtn" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold rounded-xl shadow-lg bloom mr-4">Yes 💖</button>
-      <button id="noBtn" class="px-6 py-3 bg-gradient-to-r from-pink-700 to-rose-600 text-white font-bold rounded-xl shadow-lg">No 😢</button>
+      <button id="yesBtn" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold rounded-xl shadow-lg bloom mr-4">Bilkul Ha 💖</button>
+      <button id="noBtn" class="px-6 py-3 bg-gradient-to-r from-pink-700 to-rose-600 text-white font-bold rounded-xl shadow-lg">Nahi 😜</button>
     </div>
   </div>
 
   <!-- Sweet message after Yes -->
   <div id="sweetMessage">
-    💖 Dekh Abi Bhi Time Hain....😂😂 💖
+    😂 Hahaha! Sirf Hum Dono 😎💖
     <br>
-    <button id="nextPageBtn"> Done? 🎉</button>
+    <button id="nextPageBtn">Next 🎉</button>
   </div>
 
   <!-- Background music -->
@@ -195,7 +196,7 @@ yesBtn.addEventListener('click',()=>{
 });
 
 // Next page
-nextPageBtn.addEventListener('click',()=>{ window.location.href="marriage_celebration.html"; });
+nextPageBtn.addEventListener('click',()=>{ window.location.href="final_celebration.html"; });
 
 // No button evade
 noBtn.addEventListener('mouseenter',()=>{
