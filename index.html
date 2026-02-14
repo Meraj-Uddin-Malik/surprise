@@ -27,8 +27,8 @@
 
 @keyframes fall {
   0%   { transform: translateY(-10%) rotate(0deg) scale(0.8); opacity: 0.8; }
-  50%  { transform: translateY(50vh) rotate(180deg) scale(1); opacity: 0.9; }
-  100% { transform: translateY(110vh) rotate(360deg) scale(0.8); opacity: 0; }
+  50%  { transform: translateY(50vh) rotate(180deg) scale(1); opacity:0.9; }
+  100% { transform: translateY(110vh) rotate(360deg) scale(0.8); opacity:0; }
 }
 
 /* Bloom hover effect */
@@ -43,12 +43,11 @@
   font-size: 20px;
   color: #f43f5e;
   pointer-events: none;
-  animation: heartFloat 3s linear infinite;
+  animation: heartFloat 3s linear forwards;
 }
 @keyframes heartFloat {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  50% { transform: translateY(-50px) scale(1.2); opacity: 0.8; }
-  100% { transform: translateY(-100px) scale(0.8); opacity: 0; }
+  0% { transform: translateY(0) scale(1); opacity:1; }
+  100% { transform: translateY(-150px) scale(1.5); opacity:0; }
 }
 
 /* Stars */
@@ -65,6 +64,11 @@
   0% { opacity: 0.2; transform: scale(0.8); }
   100% { opacity: 1; transform: scale(1.2); }
 }
+
+/* Responsive card size */
+@media (max-width: 640px) {
+  #loveCard { height: 380px; } /* smaller card for mobile */
+}
 </style>
 </head>
 <body class="relative flex items-center justify-center min-h-screen overflow-hidden 
@@ -77,13 +81,8 @@ bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
   <div id="petals" class="fixed inset-0 z-10"></div>
   <div id="ice" class="fixed inset-0 z-10"></div>
 
-  <!-- Overlay for mobile autoplay -->
-  <div id="overlay" class="fixed inset-0 bg-white/70 z-20 flex items-center justify-center">
-    <button class="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl shadow-xl bloom">Tap to Start Music ❤️</button>
-  </div>
-
   <!-- Card -->
-  <div class="perspective w-11/12 max-w-sm z-30">
+  <div class="perspective w-11/12 max-w-sm z-20">
     <div id="loveCard" class="card preserve-3d relative w-full h-[450px] rounded-3xl shadow-2xl cursor-pointer">
 
       <!-- Front -->
@@ -102,8 +101,8 @@ bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
     </div>
   </div>
 
-  <!-- Music -->
-  <audio id="bgMusic" loop>
+  <!-- Background Music -->
+  <audio id="bgMusic" loop autoplay>
     <source src="music.mp3" type="audio/mpeg">
   </audio>
 
@@ -153,17 +152,11 @@ document.body.addEventListener('click', e=>{
 });
 
 // Flip card & music
-const overlay=document.getElementById('overlay');
 const bgMusic=document.getElementById('bgMusic');
 const loveCard=document.getElementById('loveCard');
 let musicPlayed=false;
 
 window.addEventListener('load',()=>{ bgMusic.play().catch(()=>{}); });
-
-overlay.addEventListener('click',()=>{
-  if(!musicPlayed){ bgMusic.play().catch(()=>{}); musicPlayed=true; }
-  overlay.style.display='none';
-});
 
 loveCard.addEventListener('click',()=>{
   loveCard.classList.toggle('card-open');
