@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Celebration! 💖</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* Glow text & buttons */
+.glow-text { text-shadow: 0 0 20px rgba(255,192,203,0.9),0 0 40px rgba(255,105,180,0.8); }
+.bloom:hover { transform: scale(1.1); box-shadow: 0 0 35px rgba(255,0,128,0.9); transition: 0.3s ease; }
+
+/* Petals, ice, diamonds, confetti, hearts */
+.petal, .ice, .diamond, .confetti, .heart, .firework {
+  position: absolute;
+  pointer-events: none;
+  animation: fall linear infinite;
+  opacity: 0.85;
+}
+.petal { font-size: 16px; }
+.ice { font-size: 14px; }
+.diamond { font-size: 18px; }
+.confetti { font-size: 14px; }
+.heart { font-size: 20px; animation: heartFloat 4s linear forwards; }
+.firework { font-size: 25px; animation: fireworkExplode 1.5s ease-out forwards; }
+
+.petal:nth-child(odd), .ice:nth-child(odd), .diamond:nth-child(odd), .confetti:nth-child(odd) { animation-duration: 5s; }
+.petal:nth-child(even), .ice:nth-child(even), .diamond:nth-child(even), .confetti:nth-child(even) { animation-duration: 7s; }
+
+@keyframes fall {
+  0%   { transform: translateY(-10%) rotate(0deg) scale(0.8); opacity:0.8; }
+  50%  { transform: translateY(50vh) rotate(180deg) scale(1); opacity:0.9; }
+  100% { transform: translateY(110vh) rotate(360deg) scale(0.8); opacity:0; }
+}
+@keyframes heartFloat { 0%{opacity:1; transform:translateY(0) scale(1);} 100%{opacity:0; transform:translateY(-200px) scale(1.5);} }
+@keyframes fireworkExplode { 0%{opacity:1; transform:scale(0);} 50%{transform:scale(1.2);} 100%{opacity:0; transform:scale(1.5);} }
+
+/* Stars */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle { 0% {opacity:0.2; transform: scale(0.8);} 100% {opacity:1; transform: scale(1.2);} }
+
+/* Celebration message */
+#celebrationMessage {
+  position: absolute;
+  top:50%; left:50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(to-tr,#f43f5e,#ec4899);
+  padding: 3rem 4rem;
+  border-radius: 2.5rem;
+  text-align: center;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+  z-index:50;
+  box-shadow: 0 0 50px rgba(255,0,128,0.95);
+}
+#celebrationMessage button {
+  margin-top: 2rem;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 1rem;
+  border:none;
+  cursor:pointer;
+  background:#fff;
+  color:#f43f5e;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+  transition:0.3s;
+}
+#celebrationMessage button:hover { transform: scale(1.1);}
+</style>
+</head>
+<body class="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
+
+  <!-- Stars -->
+  <div id="stars" class="fixed inset-0 z-0 pointer-events-none"></div>
+
+  <!-- Petals, ice, diamonds, confetti -->
+  <div id="petals" class="fixed inset-0 z-10"></div>
+  <div id="ice" class="fixed inset-0 z-10"></div>
+  <div id="diamonds" class="fixed inset-0 z-10"></div>
+  <div id="confetti" class="fixed inset-0 z-10"></div>
+
+  <!-- Celebration Message -->
+  <div id="celebrationMessage" class="glow-text">
+    💖 Hamari Kahani Complete! 💖
+    <br>
+    <button id="replayBtn">Replay 🔁</button>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop autoplay>
+    <source src="final_song.mp3" type="audio/mpeg">
+  </audio>
+
+<script>
+// Stars
+const starsContainer = document.getElementById('stars');
+for(let i=0;i<100;i++){
+  const star=document.createElement('div');
+  star.classList.add('star');
+  star.style.top=Math.random()*100+'%';
+  star.style.left=Math.random()*100+'%';
+  star.style.width=star.style.height=(1+Math.random()*2)+'px';
+  star.style.animationDuration=(1+Math.random()*2)+'s';
+  starsContainer.appendChild(star);
+}
+
+// Petals, ice, diamonds, confetti
+const petalsContainer=document.getElementById('petals');
+const iceContainer=document.getElementById('ice');
+const diamondsContainer=document.getElementById('diamonds');
+const confettiContainer=document.getElementById('confetti');
+
+for(let i=0;i<70;i++){
+  const petal=document.createElement('div');
+  petal.classList.add('petal');
+  petal.textContent='🌹';
+  petal.style.left=Math.random()*100+'vw';
+  petal.style.fontSize=(14+Math.random()*20)+'px';
+  petal.style.animationDelay=Math.random()*5+'s';
+  petalsContainer.appendChild(petal);
+
+  const ice=document.createElement('div');
+  ice.classList.add('ice');
+  ice.textContent='❄️';
+  ice.style.left=Math.random()*100+'vw';
+  ice.style.fontSize=(12+Math.random()*14)+'px';
+  ice.style.animationDelay=Math.random()*5+'s';
+  iceContainer.appendChild(ice);
+
+  const diamond=document.createElement('div');
+  diamond.classList.add('diamond');
+  diamond.textContent='💎';
+  diamond.style.left=Math.random()*100+'vw';
+  diamond.style.fontSize=(14+Math.random()*18)+'px';
+  diamond.style.animationDelay=Math.random()*5+'s';
+  diamondsContainer.appendChild(diamond);
+
+  const confetti=document.createElement('div');
+  confetti.classList.add('confetti');
+  confetti.textContent='🎊';
+  confetti.style.left=Math.random()*100+'vw';
+  confetti.style.fontSize=(12+Math.random()*14)+'px';
+  confetti.style.animationDelay=Math.random()*5+'s';
+  confettiContainer.appendChild(confetti);
+}
+
+// Hearts floating continuously
+setInterval(()=>{
+  const heart=document.createElement('div');
+  heart.classList.add('heart');
+  heart.textContent='💖';
+  heart.style.left=Math.random()*100+'vw';
+  heart.style.top='80vh';
+  heart.style.fontSize=(16+Math.random()*30)+'px';
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),4000);
+},300);
+
+// Fireworks
+setInterval(()=>{
+  const firework=document.createElement('div');
+  firework.classList.add('firework');
+  firework.textContent='✨';
+  firework.style.left=Math.random()*100+'vw';
+  firework.style.top=Math.random()*50+'vh';
+  firework.style.fontSize=(20+Math.random()*30)+'px';
+  document.body.appendChild(firework);
+  setTimeout(()=>firework.remove(),1500);
+},500);
+
+// Auto-play background music
+const bgMusic = document.getElementById('bgMusic');
+bgMusic.volume = 0.7; // optional volume
+bgMusic.play().catch(()=>{}); // in case autoplay is blocked
+
+// Replay button
+const replayBtn=document.getElementById('replayBtn');
+replayBtn.addEventListener('click',()=>{ window.location.reload(); });
+</script>
+</body>
+</html>

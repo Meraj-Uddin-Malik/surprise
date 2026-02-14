@@ -5,10 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Will You Be My Valentine? 💖</title>
 <script src="https://cdn.tailwindcss.com"></script>
+
 <style>
-/* Glow text & buttons */
-.glow-text { text-shadow: 0 0 15px rgba(255,192,203,0.9),0 0 30px rgba(255,105,180,0.7); }
-.bloom:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(255,0,128,0.8); transition: 0.3s ease; }
+
+/* Glow text */
+.glow-text {
+  text-shadow: 0 0 15px rgba(255,192,203,0.9),
+               0 0 30px rgba(255,105,180,0.7);
+}
+
+/* Button hover */
+.bloom:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255,0,128,0.8);
+  transition: 0.3s ease;
+}
 
 /* Petals & ice */
 .petal, .ice {
@@ -17,8 +28,10 @@
   animation: fall linear infinite;
   opacity: 0.85;
 }
+
 .petal { color: #f472b6; font-size: 16px; }
 .ice { color: #60a5fa; font-size: 14px; }
+
 .petal:nth-child(odd), .ice:nth-child(odd) { animation-duration: 5s; }
 .petal:nth-child(even), .ice:nth-child(even) { animation-duration: 7s; }
 
@@ -38,87 +51,139 @@
   opacity: 0.8;
   animation: twinkle 2s infinite alternate;
 }
-@keyframes twinkle { 0% {opacity:0.2; transform: scale(0.8);} 100% {opacity:1; transform: scale(1.2);} }
 
-/* Hearts/confetti */
+@keyframes twinkle {
+  0% {opacity:0.2; transform: scale(0.8);}
+  100% {opacity:1; transform: scale(1.2);}
+}
+
+/* Hearts */
 .heart {
   position: absolute;
   pointer-events: none;
   font-size: 20px;
   animation: heartFloat 3s linear forwards;
 }
-@keyframes heartFloat { 0%{opacity:1; transform:translateY(0) scale(1);} 100%{opacity:0; transform:translateY(-150px) scale(1.5);} }
 
-/* No button evade */
-#noBtn { position: absolute; transition: all 0.3s ease; cursor: pointer; }
+@keyframes heartFloat {
+  0% {opacity:1; transform:translateY(0) scale(1);}
+  100% {opacity:0; transform:translateY(-150px) scale(1.5);}
+}
 
-/* Sweet message card - fully opaque */
+/* No button */
+#noBtn {
+  position: relative;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Dark overlay */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  z-index: 40;
+}
+
+/* Sweet message - darker & responsive */
 #sweetMessage {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(to-tr, #f43f5e, #ec4899);
-  padding: 2.5rem 3rem;
-  border-radius: 2rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  width: 90%;
+  max-width: 380px;
+  padding: 2rem 1.5rem;
+  border-radius: 1.5rem;
   text-align: center;
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
   display: none;
   z-index: 50;
-  box-shadow: 0 0 35px rgba(255, 0, 128, 0.95);
-  backdrop-filter: none;
-  opacity: 1;
+
+  background: linear-gradient(135deg, #9f1239, #7e22ce);
+  box-shadow: 0 0 40px rgba(0,0,0,0.8);
+  transition: all 0.4s ease;
 }
+
+/* Show animation */
+#sweetMessage.show {
+  transform: translate(-50%, -50%) scale(1);
+}
+
 #sweetMessage button {
   margin-top: 1.5rem;
-  padding: 0.75rem 2.5rem;
-  font-size: 1.1rem;
+  padding: 0.7rem 2rem;
+  font-size: 1rem;
   font-weight: bold;
   border-radius: 1rem;
   border: none;
   cursor: pointer;
   background: #fff;
-  color: #f43f5e;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-  transition: 0.3s;
+  color: #9f1239;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  transition: 0.3s ease;
 }
-#sweetMessage button:hover { transform: scale(1.1); }
+
+#sweetMessage button:hover {
+  transform: scale(1.1);
+}
+
 </style>
 </head>
+
 <body class="relative flex items-center justify-center min-h-screen overflow-hidden 
 bg-gradient-to-tr from-rose-900 via-pink-700 to-rose-800">
 
-  <!-- Stars -->
-  <div id="stars" class="fixed inset-0 z-0 pointer-events-none"></div>
+<!-- Stars -->
+<div id="stars" class="fixed inset-0 z-0 pointer-events-none"></div>
 
-  <!-- Petals & ice -->
-  <div id="petals" class="fixed inset-0 z-10"></div>
-  <div id="ice" class="fixed inset-0 z-10"></div>
+<!-- Petals & Ice -->
+<div id="petals" class="fixed inset-0 z-10"></div>
+<div id="ice" class="fixed inset-0 z-10"></div>
 
-  <!-- Question Card -->
-  <div class="z-20 flex flex-col items-center justify-center text-center px-6">
-    <h1 class="text-4xl md:text-5xl font-bold text-rose-200 mb-6 glow-text animate-pulse">Will You Be My Valentine? 💖</h1>
-    <div class="relative w-full max-w-xs flex justify-center items-center">
-      <button id="yesBtn" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold rounded-xl shadow-lg bloom mr-4">Yes 💖</button>
-      <button id="noBtn" class="px-6 py-3 bg-gradient-to-r from-pink-700 to-rose-600 text-white font-bold rounded-xl shadow-lg">No 😢</button>
-    </div>
-  </div>
+<!-- Question Card -->
+<div class="z-20 flex flex-col items-center justify-center text-center px-6">
 
-  <!-- Sweet message after Yes -->
-  <div id="sweetMessage">
-    💖 Yay! You made me the happiest! 💖
-    <br>
-    <button id="nextPageBtn"><a href=""></a> ❤️</button>
-  </div>
+<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-200 mb-6 glow-text animate-pulse">
+Will You Be My Valentine? 💖
+</h1>
 
-  <!-- Background music -->
-  <audio id="bgMusic" loop autoplay>
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
+<div class="relative w-full max-w-xs flex flex-col sm:flex-row justify-center items-center gap-4">
+<button id="yesBtn" 
+class="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold rounded-xl shadow-lg bloom">
+Yes 💖
+</button>
+
+<button id="noBtn" 
+class="px-6 py-3 bg-gradient-to-r from-pink-700 to-rose-600 text-white font-bold rounded-xl shadow-lg">
+No 😢
+</button>
+</div>
+
+</div>
+
+<!-- Overlay -->
+<div id="overlay"></div>
+
+<!-- Sweet Message -->
+<div id="sweetMessage">
+💖 Yay! You made me the happiest! 💖
+<br>
+<button id="nextPageBtn">Next ❤️</button>
+</div>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop autoplay>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-// Stars
+
+/* Stars */
 const starsContainer = document.getElementById('stars');
 for(let i=0;i<80;i++){
   const star=document.createElement('div');
@@ -130,10 +195,11 @@ for(let i=0;i<80;i++){
   starsContainer.appendChild(star);
 }
 
-// Petals & ice
+/* Petals & Ice */
 const petalsContainer=document.getElementById('petals');
 const iceContainer=document.getElementById('ice');
-for(let i=0;i<50;i++){
+
+for(let i=0;i<40;i++){
   const petal=document.createElement('div');
   petal.classList.add('petal');
   petal.textContent='🌹';
@@ -151,16 +217,19 @@ for(let i=0;i<50;i++){
   iceContainer.appendChild(ice);
 }
 
-// Buttons
+/* Buttons */
 const yesBtn=document.getElementById('yesBtn');
 const noBtn=document.getElementById('noBtn');
 const sweetMessage=document.getElementById('sweetMessage');
+const overlay=document.getElementById('overlay');
 const nextPageBtn=document.getElementById('nextPageBtn');
 
-// Yes button
+/* YES Click */
 yesBtn.addEventListener('click',()=>{
+  overlay.style.display='block';
   sweetMessage.style.display='block';
-  // Hearts animation
+  setTimeout(()=>sweetMessage.classList.add('show'),50);
+
   for(let i=0;i<30;i++){
     const heart=document.createElement('div');
     heart.classList.add('heart');
@@ -173,15 +242,19 @@ yesBtn.addEventListener('click',()=>{
   }
 });
 
-// Next page
-nextPageBtn.addEventListener('click',()=>{ window.location.href="valentine_next.html"; });
+/* Next Page */
+nextPageBtn.addEventListener('click',()=>{
+  window.location.href="second.html";
+});
 
-// No button evade
+/* No Button Run Away */
 noBtn.addEventListener('mouseenter',()=>{
   const x=Math.random()*200-100;
   const y=Math.random()*200-100;
   noBtn.style.transform=`translate(${x}px, ${y}px)`;
 });
+
 </script>
+
 </body>
 </html>
